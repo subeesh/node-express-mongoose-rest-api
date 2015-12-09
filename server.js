@@ -36,6 +36,29 @@ router.route("/users")
 			}
 			res.json(response);
 		})
+	})
+	.post(function(req, res) {
+		let user = new userModel();
+		let response = {};
+
+		user.email = req.body.email;
+		user.password = req.body.password;
+
+		user.save(function(err) {
+			if (err) {
+				response = {
+					"error": true,
+					"message": "Error addint user"
+				};
+			} else {
+				response = {
+					"error": false,
+					"message": "User added"
+				};
+			}
+
+			res.json(response);
+		})
 	});
 
 app.use("/", router);

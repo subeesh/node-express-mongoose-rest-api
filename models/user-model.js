@@ -9,4 +9,4 @@ let userSchema = {
 	"password": String
 };
 
-module.exports = mongoose.model("userModel", userSchema);
+module.exports = mongoose.model("users", userSchema);
