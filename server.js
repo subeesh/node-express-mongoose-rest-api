@@ -79,6 +79,40 @@ router.route("/users/:id")
 			res.json(response);
 		})
 	})
+	.put(function(req, res) {
+
+		let response = {};
+
+		userModel.findById(req.params.id, function(err, data) {
+			if (err) {
+				response = {
+					"error": true,
+					"message": "Error fetching data"
+				};
+			} else {
+				if (req.body.email !== undefined) {
+					data.email = req.body.email;
+				}
+				if (req.body.password !== undefined) {
+					data.password = req.body.password;
+				}
+				data.save(function(err) {
+					if (err) {
+						response = {
+							"error": true,
+							"message": "Error updating data"
+						};
+					} else {
+						response = {
+							"error": false,
+							"message": "Data is updated for " + req.params.id
+						};
+					}
+					res.json(response);
+				})
+			}
+		})
+	});
 
 app.use("/", router);
 
