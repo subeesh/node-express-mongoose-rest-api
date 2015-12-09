@@ -5,6 +5,8 @@ let bodyParser = require('body-parser');
 let app = express();
 let router = express.Router();
 
+let userModel = require('./models/user-model');
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
 	"extended": false
@@ -16,6 +18,25 @@ router.get("/", function(req, res) {
 		"message": "Hello World"
 	});
 })
+
+router.route("/users")
+	.get(function(req, res) {
+		let response = {};
+		userModel.find({}, function(err, data) {
+			if (err) {
+				response = {
+					"error": true,
+					"message": "Error fetching data"
+				};
+			} else {
+				response = {
+					"error": false,
+					"message": data
+				};
+			}
+			res.json(response);
+		})
+	});
 
 app.use("/", router);
 
