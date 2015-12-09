@@ -112,6 +112,36 @@ router.route("/users/:id")
 				})
 			}
 		})
+	})
+	.delete(function(req, res) {
+
+		let response = {};
+
+		userModel.findById(req.params.id, function(err, data) {
+			if (err) {
+				response = {
+					"error": true,
+					"message": "Error fetching data"
+				};
+			} else {
+				userModel.remove({
+					_id: req.params.id
+				}, function(err) {
+					if (err) {
+						response = {
+							"error": true,
+							"message": "Error removing user"
+						};
+					} else {
+						response = {
+							"error": false,
+							"message": "User with ID " + req.params.id + "is deleted"
+						};
+					}
+					res.json(response);
+				})
+			}
+		})
 	});
 
 app.use("/", router);
