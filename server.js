@@ -61,6 +61,25 @@ router.route("/users")
 		})
 	});
 
+router.route("/users/:id")
+	.get(function(req, res) {
+		let response = {};
+		userModel.findById(req.params.id, function(err, data) {
+			if (err) {
+				response = {
+					"error": true,
+					"message": "Error fetching data"
+				};
+			} else {
+				response = {
+					"error": false,
+					"message": data
+				};
+			}
+			res.json(response);
+		})
+	})
+
 app.use("/", router);
 
 app.listen(3000);
